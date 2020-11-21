@@ -1,5 +1,10 @@
 
 
+#ifndef _PIECES_H
+#define _PIECES_H
+
+
+
 #include "main.h"
 
 #define _DIM 4
@@ -14,19 +19,15 @@
 
 #define _T_SIDE 3
 
-enum{
-    _ZERO = 0,
-    _PIHALF = 1,
-    _PI = 2,
-    _PITHREEHALF = 3,
-};
+
 
 typedef struct{
     int x;
     int y;
 }pos;
 
-typedef char Piece[_DIM][_DIM];
+typedef unsigned char Piece[_DIM][_DIM];
+
 
 
 const Piece Square = {{' ',' ',' ',' '},
@@ -109,7 +110,6 @@ const Piece T_ZERO =   {{' ','#',' ',' '},
                         {' ',' ',' ',' '},
                         {' ',' ',' ',' '}};
 
-
 const Piece T_PIHALF =   {{' ','#',' ',' '},
                           {' ','#','#',' '},
                           {' ','#',' ',' '},
@@ -125,4 +125,32 @@ const Piece T_PITHREEHALF =   {{' ','#',' ',' '},
                                {' ','#',' ',' '},
                                {' ',' ',' ',' '}};
 
+
+
+
+
+bool_t init_controll_collision(Tab t, char p[][_DIM], pos pos )
+{
+    bool_t res;
+    int i;
+    int j;
+    int num;
+    res = true;
+    for ( i = 0; i < _DIM; i++)
+    {
+        for (j = 0; j < _DIM; j++)
+        {
+            num = t.matrix[i + pos.y][j +pos.x] + p[i][j];
+            
+            if (num != _BLOCK + _VOID_CH && num!= _VOID_CH * 2 )
+            {
+                res = false;
+            }
+        }
+    }
+    return res;
+
+}
+
+#endif
 

@@ -6,14 +6,13 @@
 #include "main.h"
 
 #define _ROW 31
-#define _COLUMN 31
+#define _COLUMN 40
 
 typedef struct {
     char matrix[_ROW][_COLUMN];
 }Tab;
 
-
-void reset_matrix(Tab *c, int ROW, int COL, char ch)
+void reset_matrix(Tab* c, int ROW, int COL, char ch)
 {
     int i;
     int j;
@@ -25,6 +24,45 @@ void reset_matrix(Tab *c, int ROW, int COL, char ch)
         }
     }
 }
+
+void init_pause(Tab* pause)
+{
+    FILE* fp;
+    
+    int i;
+    int j;
+    char c;
+
+    fp = fopen("Pause.txt", "r");
+
+    reset_matrix(pause, _ROW, _COLUMN, _VOID_CH);
+
+    if(fp != NULL) 
+    {
+        for ( i = 20; i < 18; i++)
+        {
+            for(j = 0; j < _COLUMN; j++)
+            {
+                c = getc(fp);
+
+                if( c == _BLOCK)
+                {
+                pause->matrix[i][j] = c;
+                }
+                if ( c == EOF)
+                {
+                    exit;
+                }
+
+            }
+        }
+    }
+    fclose(fp);
+
+}
+
+
+
 
 void init_tab(Tab* a)
 {
@@ -44,6 +82,19 @@ void init_tab(Tab* a)
         a->matrix[i][_COLUMN - 1] = _SIDE_BORDER;
     }
 
+}
+
+void assign_Tab(Tab* first, Tab* second)
+{
+    int i;
+    int j;
+    for (i = 0; i < _ROW; i++)
+    {
+        for ( j = 0; j < _COLUMN; j++)
+        {
+            first->matrix[i][j] = second->matrix[i][j];
+        }
+    }
 }
 
 #endif
